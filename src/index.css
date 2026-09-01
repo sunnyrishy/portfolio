@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Clear the sticky nav when jumping to a section. */
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: oklch(0.74 0.15 232 / 0.28);
+  }
+
+  /* Respect the viewer's motion preference: entrances resolve instantly,
+     hover transitions survive. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Hero entrance. Deliberately CSS rather than JS: this content is above the
+     fold, so its end state must never depend on an animation runtime having
+     run. `both` fill mode guarantees it resolves visible either way. */
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .rise {
+    animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  }
+
+  .rise-1 { animation-delay: 0.05s; }
+  .rise-2 { animation-delay: 0.14s; }
+  .rise-3 { animation-delay: 0.23s; }
+  .rise-4 { animation-delay: 0.32s; }
+  .rise-5 { animation-delay: 0.41s; }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-14;
+  }
+
+  .section {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .eyebrow {
+    @apply flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-dim md:text-xs;
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply block h-px w-[22px] bg-accent;
+  }
+
+  .h2 {
+    @apply mt-5 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl lg:text-[56px] lg:leading-[1.04];
+  }
+
+  .lede {
+    @apply mt-4 max-w-[620px] text-base leading-relaxed text-mid md:mt-5 md:text-lg;
+  }
+
+  .surface {
+    @apply rounded-2xl border border-hairline bg-surface;
+  }
+
+  .pill {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 text-[15px] font-medium
+           transition-transform duration-300 ease-smooth hover:-translate-y-0.5;
+  }
+
+  .pill-primary {
+    @apply pill bg-ink text-canvas hover:bg-white;
+  }
+
+  .pill-ghost {
+    @apply pill border border-hairline2 text-ink hover:bg-white/[0.06];
+  }
+
+  .kpi {
+    @apply rounded-lg border px-2.5 py-1.5 font-mono text-[11px] md:text-xs;
+    color: oklch(0.74 0.15 232);
+    background: oklch(0.74 0.15 232 / 0.1);
+    border-color: oklch(0.74 0.15 232 / 0.2);
+  }
+
+  .tag {
+    @apply rounded-md border border-hairline px-2.5 py-1 font-mono text-[11px] text-dim;
+  }
+
+  .chip {
+    @apply rounded-[10px] border border-hairline bg-white/[0.02] px-3.5 py-2 text-sm text-mid
+           transition-colors duration-300 hover:border-hairline2 hover:text-ink;
+  }
+}

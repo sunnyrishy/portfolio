@@ -1,0 +1,13 @@
+node_modules
+dist
+.vercel
+.env
+.env.local
+.DS_Store
+*.log
+
+# Design canvas working files and the seeded artifact page
+*.dc.html
+canvas.json
+sunny-rishy-portfolio.html
+resume.pdf
