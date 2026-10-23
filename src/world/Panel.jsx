@@ -26,7 +26,7 @@ function About() {
       </p>
       <div className="mt-6 grid grid-cols-2 gap-3">
         {metrics.map((m) => (
-          <div key={m.label} className="rounded-xl border border-hairline bg-white/[0.03] p-4">
+          <div key={m.label} className="rounded-xl border border-hairline bg-ink/[0.04] p-4">
             <div className="font-mono text-2xl font-medium text-ink">
               <CountUp to={m.to} decimals={m.decimals} suffix={m.suffix} />
             </div>
@@ -51,7 +51,7 @@ function Projects() {
       <p className="mt-3 text-mid">Three systems, each measured instead of guessed at. Tap one to see how it went.</p>
       <div className="mt-6 space-y-3">
         {projects.map((p, i) => (
-          <div key={p.title} className="rounded-2xl border border-hairline bg-white/[0.03]">
+          <div key={p.title} className="rounded-2xl border border-hairline bg-ink/[0.04]">
             <button
               className="flex w-full items-start justify-between gap-4 p-5 text-left"
               aria-expanded={open === i}
@@ -106,7 +106,7 @@ function OpenSource() {
             href={c.url}
             target="_blank"
             rel="noreferrer"
-            className="group block rounded-2xl border border-hairline bg-white/[0.03] p-5 transition hover:border-hairline2 hover:bg-white/[0.06]"
+            className="group block rounded-2xl border border-hairline bg-ink/[0.04] p-5 transition hover:border-hairline2 hover:bg-ink/[0.04]"
           >
             <div className="flex items-center justify-between gap-3 text-xs text-dim">
               <span className="font-mono">
@@ -171,7 +171,7 @@ function Education() {
       <Title>Degrees and honors</Title>
       <div className="mt-6 space-y-4">
         {education.map((e) => (
-          <div key={e.degree} className="rounded-2xl border border-hairline bg-white/[0.03] p-5">
+          <div key={e.degree} className="rounded-2xl border border-hairline bg-ink/[0.04] p-5">
             <div className="font-mono text-xs text-dim">
               {e.when} · {e.place}
             </div>
@@ -260,13 +260,13 @@ function Contact() {
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-between px-5 py-4 transition hover:bg-white/[0.05]"
+            className="flex items-center justify-between px-5 py-4 transition hover:bg-ink/[0.04]"
           >
             <span>{name}</span>
             <ArrowRight className="text-dim" />
           </a>
         ))}
-        <a href={profile.resume} download className="flex items-center justify-between px-5 py-4 transition hover:bg-white/[0.05]">
+        <a href={profile.resume} download className="flex items-center justify-between px-5 py-4 transition hover:bg-ink/[0.04]">
           <span>Resume (PDF)</span>
           <Download className="text-dim" />
         </a>

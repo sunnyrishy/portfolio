@@ -15,17 +15,44 @@ function rng(seed) {
   };
 }
 
-function Stars() {
-  const stars = useMemo(() => {
-    const r = rng(7);
-    return Array.from({ length: 90 }, () => ({ x: r() * 100, y: r() * 62, s: 0.6 + r() * 1.6, d: r() * 4 }));
-  }, []);
+const birds = [
+  { top: 12, size: 26, dur: 34, delay: -4 },
+  { top: 18, size: 20, dur: 42, delay: -17 },
+  { top: 9, size: 16, dur: 52, delay: -30 },
+  { top: 24, size: 22, dur: 38, delay: -9 },
+  { top: 15, size: 14, dur: 60, delay: -45 },
+];
+
+function Bird({ size }) {
   return (
-    <svg className="absolute inset-0 h-full w-full" aria-hidden="true">
-      {stars.map((s, i) => (
-        <circle key={i} className="twinkle" cx={`${s.x}%`} cy={`${s.y}%`} r={s.s} fill="#fff" style={{ animationDelay: `${s.d}s` }} />
-      ))}
+    <svg width={size} height={size * 0.5} viewBox="0 0 28 14" className="flap" aria-hidden="true">
+      <path d="M1 9 Q7 -1 14 8 Q21 -1 27 9" fill="none" stroke="#27406e" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+function Sky() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {birds.map((b, i) => (
+        <div key={i} className="fly absolute left-0" style={{ top: `${b.top}%`, animationDuration: `${b.dur}s`, animationDelay: `${b.delay}s` }}>
+          <div className="bob-y" style={{ animationDelay: `${i * 0.23}s` }}>
+            <Bird size={b.size} />
+          </div>
+        </div>
+      ))}
+      <div className="drone absolute left-0" style={{ top: '30%' }}>
+        <svg width="54" height="30" viewBox="0 0 54 30">
+          <rect x="17" y="12" width="20" height="8" rx="4" fill="#27406e" />
+          <circle cx="27" cy="16" r="2.4" fill="#4fd1ff" />
+          <circle className="blink" cx="35" cy="14" r="1.6" fill="#ff5a4f" />
+          <line x1="8" y1="8" x2="19" y2="13" stroke="#27406e" strokeWidth="2.2" />
+          <line x1="46" y1="8" x2="35" y2="13" stroke="#27406e" strokeWidth="2.2" />
+          <ellipse className="prop" cx="8" cy="7" rx="9" ry="1.8" fill="#27406e" />
+          <ellipse className="prop" cx="46" cy="7" rx="9" ry="1.8" fill="#27406e" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
@@ -53,9 +80,9 @@ function Skyline({ height }) {
       <g transform="translate(0 600)">
         {blocks.map((b, i) => (
           <g key={i} transform={`translate(${b.x} ${-b.h})`}>
-            <rect width={b.w} height={b.h + 100} fill="#17234f" />
+            <rect width={b.w} height={b.h + 100} fill="#9db9dd" />
             {b.wins.map(([wx, wy], j) => (
-              <rect key={j} x={wx} y={wy} width="7" height="9" fill="#ffd479" opacity="0.55" />
+              <rect key={j} x={wx} y={wy} width="7" height="9" fill="#e9f4ff" opacity="0.85" />
             ))}
           </g>
         ))}
@@ -67,8 +94,8 @@ function Skyline({ height }) {
 function Hills({ height }) {
   return (
     <svg viewBox="0 0 1600 700" preserveAspectRatio="none" width="100%" height={height} aria-hidden="true">
-      <path d="M0 520 Q200 380 420 470 T820 440 T1220 470 T1600 400 L1600 700 L0 700 Z" fill="#1b2b5e" />
-      <path d="M0 560 Q260 470 520 540 T1020 520 T1600 520 L1600 700 L0 700 Z" fill="#21336b" />
+      <path d="M0 520 Q200 380 420 470 T820 440 T1220 470 T1600 400 L1600 700 L0 700 Z" fill="#b4d6ee" />
+      <path d="M0 560 Q260 470 520 540 T1020 520 T1600 520 L1600 700 L0 700 Z" fill="#9fd3c4" />
     </svg>
   );
 }
@@ -218,8 +245,8 @@ export default function World({ onOpen, openId, onMoved }) {
   return (
     <div ref={stage} className="absolute inset-0 overflow-hidden" style={{ touchAction: 'pan-y' }}>
       <div className="sky absolute inset-0" />
-      <Stars />
-      <div className="moon" aria-hidden="true" />
+      <div className="sun" aria-hidden="true" />
+      <Sky />
       <div className="cloud c1" aria-hidden="true" />
       <div className="cloud c2" aria-hidden="true" />
 
@@ -233,10 +260,10 @@ export default function World({ onOpen, openId, onMoved }) {
       <div ref={mainRef} className="absolute bottom-0 left-0 will-change-transform" style={{ width: mainW, height: H }}>
         <svg viewBox={`0 0 ${WORLD_W} ${WORLD_H}`} width={mainW} height={H} role="group" aria-label="Interactive town map">
           {/* ground */}
-          <rect x="0" y={GROUND} width={WORLD_W} height={WORLD_H - GROUND} fill="#0f3d43" />
-          <rect x="0" y={GROUND + 52} width={WORLD_W} height={WORLD_H - GROUND - 52} fill="#1a2238" />
-          <line x1="0" x2={WORLD_W} y1={GROUND + 52} y2={GROUND + 52} stroke="#2e3a5c" strokeWidth="3" />
-          <line x1="0" x2={WORLD_W} y1={GROUND + 106} y2={GROUND + 106} stroke="#f5c04a" strokeWidth="3" strokeDasharray="28 24" opacity="0.7" />
+          <rect x="0" y={GROUND} width={WORLD_W} height={WORLD_H - GROUND} fill="#7ccf98" />
+          <rect x="0" y={GROUND + 52} width={WORLD_W} height={WORLD_H - GROUND - 52} fill="#66738f" />
+          <line x1="0" x2={WORLD_W} y1={GROUND + 52} y2={GROUND + 52} stroke="#4d5a76" strokeWidth="3" />
+          <line x1="0" x2={WORLD_W} y1={GROUND + 106} y2={GROUND + 106} stroke="#fff3c4" strokeWidth="3" strokeDasharray="28 24" opacity="0.7" />
 
           {[80, 520, 1010, 1480, 1940, 2340, 2700, 2960].map((x, i) => (
             <g key={x} transform={`translate(${x} ${GROUND})`}>
@@ -266,11 +293,11 @@ export default function World({ onOpen, openId, onMoved }) {
                 <rect x="-170" y={-l.top - 10} width="340" height={l.top + 10} fill="transparent" />
                 <Art />
                 <g className="tip" transform={`translate(0 ${-l.top - 26})`}>
-                  <rect x={-tw / 2} y="-22" width={tw} height="30" rx="15" fill="#f4f6ff" />
-                  <text x="0" y="-2" textAnchor="middle" fontFamily="Instrument Sans, sans-serif" fontSize="15" fontWeight="600" fill="#0b1230">
+                  <rect x={-tw / 2} y="-22" width={tw} height="30" rx="15" fill="#14213d" />
+                  <text x="0" y="-2" textAnchor="middle" fontFamily="Instrument Sans, sans-serif" fontSize="15" fontWeight="600" fill="#ffffff">
                     {l.label}
                   </text>
-                  <path d="M-6 8 L0 15 L6 8 Z" fill="#f4f6ff" />
+                  <path d="M-6 8 L0 15 L6 8 Z" fill="#14213d" />
                 </g>
               </g>
             );
@@ -288,9 +315,9 @@ export default function World({ onOpen, openId, onMoved }) {
 
       {active && !openId && (
         <div className="pointer-events-none absolute inset-x-0 bottom-8 flex justify-center px-4">
-          <div className="rounded-full bg-white/95 px-4 py-2 text-sm font-medium text-[#0b1230] shadow-lg">
+          <div className="rounded-full border border-hairline bg-white px-4 py-2 text-sm font-medium text-ink shadow-lg">
             {landmarks.find((l) => l.id === active).hint}
-            <span className="ml-2 text-[#5b6aa8]">click to open</span>
+            <span className="ml-2 text-accent">click to open</span>
           </div>
         </div>
       )}

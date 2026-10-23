@@ -15,11 +15,11 @@
   }
 
   ::selection {
-    background: rgb(79 209 255 / 0.3);
+    background: rgb(31 122 224 / 0.25);
   }
 
   :focus-visible {
-    outline: 2px solid #4fd1ff;
+    outline: 2px solid #1f7ae0;
     outline-offset: 3px;
   }
 }
@@ -30,10 +30,10 @@
     @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full px-5 text-[15px] font-medium transition duration-300 hover:-translate-y-0.5;
   }
   .btn-primary {
-    @apply bg-accent text-canvas hover:brightness-110;
+    @apply bg-accent text-white hover:brightness-110;
   }
   .btn-ghost {
-    @apply border border-hairline2 text-ink hover:bg-white/[0.06];
+    @apply border border-hairline2 text-ink hover:bg-ink/[0.06];
   }
   .kpi {
     @apply rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1.5 font-mono text-[11px] text-accent;
@@ -42,44 +42,61 @@
     @apply rounded-md border border-hairline px-2.5 py-1 font-mono text-[11px] text-dim;
   }
   .chip {
-    @apply rounded-[10px] border border-hairline bg-white/[0.03] px-3 py-1.5 text-sm text-mid transition-colors hover:border-hairline2 hover:text-ink;
+    @apply rounded-[10px] border border-hairline bg-ink/[0.04] px-3 py-1.5 text-sm text-mid transition-colors hover:border-hairline2 hover:text-ink;
   }
 }
 
 /* ---------- the town ---------- */
 
 .sky {
-  background: linear-gradient(180deg, #060a1c 0%, #101b44 45%, #2c3f7c 72%, #f08a5d 100%);
+  background: linear-gradient(180deg, #7cc4f5 0%, #b8e0fa 45%, #e6f3fb 72%, #fff3d6 100%);
 }
 
-.moon {
+.sun {
   position: absolute;
-  top: 14%;
-  right: 16%;
-  width: 70px;
-  height: 70px;
+  top: 9%;
+  right: 14%;
+  width: 78px;
+  height: 78px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fffbe8, #f4e6b0 70%);
-  box-shadow: 0 0 60px 18px rgb(255 240 190 / 0.25);
+  background: radial-gradient(circle at 40% 40%, #fffbe0, #ffd86b 75%);
+  box-shadow: 0 0 70px 26px rgb(255 224 130 / 0.5);
+  animation: glow 6s ease-in-out infinite alternate;
 }
+@keyframes glow { to { box-shadow: 0 0 90px 36px rgb(255 224 130 / 0.6); } }
 
 .cloud {
   position: absolute;
-  height: 26px;
+  height: 30px;
   border-radius: 999px;
-  background: rgb(160 175 230 / 0.16);
-  filter: blur(2px);
+  background: rgb(255 255 255 / 0.85);
+  filter: blur(1.5px);
   animation: drift linear infinite;
 }
-.c1 { top: 20%; width: 150px; animation-duration: 90s; left: -200px; }
-.c2 { top: 32%; width: 100px; animation-duration: 130s; animation-delay: -50s; left: -200px; }
-@keyframes drift { to { transform: translateX(calc(100vw + 400px)); } }
+.cloud::before, .cloud::after { content: ''; position: absolute; background: inherit; border-radius: 50%; }
+.cloud::before { width: 46%; height: 150%; left: 14%; top: -70%; }
+.cloud::after { width: 34%; height: 120%; left: 50%; top: -45%; }
+.c1 { top: 20%; width: 170px; animation-duration: 90s; left: -240px; }
+.c2 { top: 34%; width: 120px; animation-duration: 130s; animation-delay: -50s; left: -240px; opacity: 0.8; }
+@keyframes drift { to { transform: translateX(calc(100vw + 480px)); } }
 
-.twinkle { animation: twinkle 3.5s ease-in-out infinite; }
-@keyframes twinkle { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
+.fly { animation: fly linear infinite; will-change: transform; }
+@keyframes fly { from { transform: translateX(-80px); } to { transform: translateX(calc(100vw + 80px)); } }
+.bob-y { animation: bobY 2.4s ease-in-out infinite; }
+@keyframes bobY { 50% { transform: translateY(-9px); } }
+.flap { transform-origin: 50% 70%; animation: flap 0.7s ease-in-out infinite alternate; }
+@keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(-0.45) translateY(3px); } }
+
+.drone { animation: drone 48s linear infinite; animation-delay: -12s; }
+@keyframes drone { 0% { transform: translate(calc(100vw + 60px), 0); } 25% { transform: translate(70vw, 20px); } 50% { transform: translate(40vw, -10px); } 75% { transform: translate(15vw, 16px); } 100% { transform: translate(-80px, 0); } }
+.prop { transform-box: fill-box; transform-origin: center; animation: prop 0.12s linear infinite alternate; }
+@keyframes prop { to { transform: scaleX(0.45); } }
+
+.eyes { transform-box: fill-box; transform-origin: center; animation: blinkeyes 4.5s infinite; }
+@keyframes blinkeyes { 0%,94%,100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
 
 .lm { cursor: pointer; outline: none; transition: filter 0.3s; }
-.lm.on, .lm:focus-visible { filter: brightness(1.22) drop-shadow(0 0 16px rgb(110 200 255 / 0.55)); }
+.lm.on, .lm:focus-visible { filter: brightness(1.06) saturate(1.1) drop-shadow(0 0 16px rgb(31 122 224 / 0.45)); }
 .lm .tip { opacity: 0; transform-box: fill-box; transition: opacity 0.2s; pointer-events: none; }
 .lm.on .tip, .lm:focus-visible .tip { opacity: 1; }
 

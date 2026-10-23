@@ -4,7 +4,6 @@ import World from './world/World';
 import PanelBody from './world/Panel';
 import { landmarks } from './world/landmarks';
 import { Menu, Close } from './components/icons';
-import { profile } from './data';
 
 export default function App() {
   const [openId, setOpenId] = useState(null);
@@ -32,22 +31,15 @@ export default function App() {
     <div className="fixed inset-0 overflow-hidden">
       <World onOpen={open} openId={openId} onMoved={onMoved} />
 
-      <header className="pointer-events-none absolute left-0 top-0 z-10 p-5 md:p-8">
-        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">
-          Hi, I'm Sunny <span className="inline-block origin-[70%_70%] animate-wave">👋</span>
-        </h1>
-        <p className="mt-1 text-sm text-mid">{profile.role} · Let's explore my town</p>
-      </header>
-
       <p
         className={`pointer-events-none absolute inset-x-0 top-5 z-10 hidden text-center font-mono text-[11px] uppercase tracking-[0.16em] text-mid transition-opacity duration-700 md:block ${
           moved ? 'opacity-40' : 'opacity-100'
         }`}
       >
-        Move your mouse to roam · click a landmark to visit
+        Glide your mouse to roam · click a landmark to visit
       </p>
       <p
-        className={`pointer-events-none absolute inset-x-0 top-24 z-10 text-center font-mono text-[11px] uppercase tracking-[0.16em] text-mid transition-opacity duration-700 md:hidden ${
+        className={`pointer-events-none absolute inset-x-0 top-7 z-10 px-16 text-center font-mono text-[11px] uppercase tracking-[0.16em] text-mid transition-opacity duration-700 md:hidden ${
           moved ? 'opacity-0' : 'opacity-100'
         }`}
       >
@@ -76,7 +68,7 @@ export default function App() {
               <button
                 key={l.id}
                 onClick={() => open(l.id)}
-                className="flex w-full items-baseline justify-between rounded-xl px-3 py-2.5 text-left transition hover:bg-white/[0.07]"
+                className="flex w-full items-baseline justify-between rounded-xl px-3 py-2.5 text-left transition hover:bg-ink/[0.06]"
               >
                 <span className="font-medium">{l.label}</span>
                 <span className="text-xs text-dim">{l.hint}</span>
@@ -86,18 +78,12 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {!openId && (
-        <div className="pointer-events-none absolute bottom-24 left-4 z-10 hidden max-w-[210px] rounded-2xl rounded-bl-sm bg-white px-4 py-3 text-sm font-medium text-[#0b1230] shadow-xl sm:block md:bottom-28 md:left-8 bubble">
-          Hey! Follow me around town and poke at the buildings.
-        </div>
-      )}
-
       <AnimatePresence>
         {openId && (
           <>
             <motion.div
               key="scrim"
-              className="absolute inset-0 z-30 bg-black/40 md:bg-black/20"
+              className="absolute inset-0 z-30 bg-[#14213d]/30 md:bg-[#14213d]/10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -108,14 +94,14 @@ export default function App() {
               role="dialog"
               aria-modal="true"
               aria-label={landmarks.find((l) => l.id === openId).label}
-              className="panel absolute z-40 flex flex-col bg-[#0b1024] max-md:inset-x-0 max-md:bottom-0 max-md:max-h-[86vh] max-md:rounded-t-3xl md:bottom-4 md:right-4 md:top-4 md:w-[440px] md:rounded-3xl md:border md:border-hairline2"
+              className="panel absolute z-40 flex flex-col bg-canvas max-md:inset-x-0 max-md:bottom-0 max-md:max-h-[86vh] max-md:rounded-t-3xl md:bottom-4 md:right-4 md:top-4 md:w-[440px] md:rounded-3xl md:border md:border-hairline2"
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 40 }}
               transition={{ type: 'spring', stiffness: 320, damping: 32 }}
             >
               <button
-                className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full border border-hairline2 bg-white/5 transition hover:bg-white/10"
+                className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full border border-hairline2 bg-ink/5 transition hover:bg-ink/10"
                 aria-label="Close"
                 onClick={() => setOpenId(null)}
                 autoFocus
