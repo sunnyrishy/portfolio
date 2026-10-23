@@ -36,7 +36,7 @@ export default function App() {
           moved ? 'opacity-40' : 'opacity-100'
         }`}
       >
-        Glide your mouse to roam · click a landmark to visit
+        Glide your mouse over the town · click a landmark to visit
       </p>
       <p
         className={`pointer-events-none absolute inset-x-0 top-7 z-10 px-16 text-center font-mono text-[11px] uppercase tracking-[0.16em] text-mid transition-opacity duration-700 md:hidden ${

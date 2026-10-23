@@ -4,6 +4,7 @@ import { Home, Works, Tower, Lab, Hall, Shed, Pad, Tree, Lamp, Car, Boy } from '
 
 const art = { about: Home, projects: Works, opensource: Tower, experience: Lab, education: Hall, skills: Shed, contact: Pad };
 
+const LM = 1.05; // landmark scale
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
 // Tiny seeded random so the skyline and stars are stable between renders.
@@ -113,11 +114,13 @@ export default function World({ onOpen, openId, onMoved }) {
   const [hover, setHover] = useState(null);
 
   // Mutable animation state lives in a ref so the rAF loop never re-renders React.
-  const st = useRef({ target: 0.0, cur: 0, mouseX: null, boyX: 300, dir: 1, moving: false, near: null, lastMove: 0, dragging: false, pan: null });
+  const st = useRef({ target: 0.0, cur: 0, mouseX: null, boyX: 200, dir: 1, moving: false, near: null, lastMove: 0, dragging: false, pan: null });
 
-  const H = Math.max(size.h, (size.w * WORLD_H) / WORLD_W);
-  const mainW = (H * WORLD_W) / WORLD_H;
-  const scale = H / WORLD_H;
+  // The whole town fits on one screen. Only narrow phones fall back to a draggable
+  // strip, because a fully fitted town would be too small to tap.
+  const scale = Math.min(Math.max(size.w / WORLD_W, size.w < 768 ? 0.6 : 0.45), size.h / WORLD_H);
+  const H = WORLD_H * scale;
+  const mainW = WORLD_W * scale;
   const range = Math.max(0, mainW - size.w);
   const farW = size.w + range * 0.22;
   const midW = size.w + range * 0.5;
@@ -218,7 +221,7 @@ export default function World({ onOpen, openId, onMoved }) {
       s.boyX += step;
       const moving = Math.abs(step) > 0.6;
       if (moving) s.dir = step > 0 ? 1 : -1;
-      boyRef.current.setAttribute('transform', `translate(${s.boyX} ${GROUND + 72}) scale(${s.dir * 1.15} 1.15)`);
+      boyRef.current.setAttribute('transform', `translate(${s.boyX} ${GROUND + 72}) scale(${s.dir * 1.7} 1.7)`);
       boyRef.current.classList.toggle('walking', moving);
 
       let best = null;
@@ -265,7 +268,7 @@ export default function World({ onOpen, openId, onMoved }) {
           <line x1="0" x2={WORLD_W} y1={GROUND + 52} y2={GROUND + 52} stroke="#4d5a76" strokeWidth="3" />
           <line x1="0" x2={WORLD_W} y1={GROUND + 106} y2={GROUND + 106} stroke="#fff3c4" strokeWidth="3" strokeDasharray="28 24" opacity="0.7" />
 
-          {[80, 520, 1010, 1480, 1940, 2340, 2700, 2960].map((x, i) => (
+          {[60, 370, 700, 1020, 1350, 1680, 1950, 2160].map((x, i) => (
             <g key={x} transform={`translate(${x} ${GROUND})`}>
               {i % 2 ? <Tree s={1.1} /> : <Lamp />}
             </g>
@@ -278,7 +281,7 @@ export default function World({ onOpen, openId, onMoved }) {
             return (
               <g
                 key={l.id}
-                transform={`translate(${l.x} ${GROUND})`}
+                transform={`translate(${l.x} ${GROUND}) scale(${LM})`}
                 className={`lm ${on ? 'on' : ''}`}
                 role="button"
                 tabIndex={0}
@@ -290,9 +293,9 @@ export default function World({ onOpen, openId, onMoved }) {
                 onFocus={() => setHover(l.id)}
                 onBlur={() => setHover(null)}
               >
-                <rect x="-170" y={-l.top - 10} width="340" height={l.top + 10} fill="transparent" />
+                <rect x="-140" y={-l.top - 10} width="280" height={l.top + 10} fill="transparent" />
                 <Art />
-                <g className="tip" transform={`translate(0 ${-l.top - 26})`}>
+                <g className="tip" transform={`translate(0 ${-l.top - 26}) scale(${Math.min(2.4, Math.max(1, 0.95 / (scale * LM)))})`}>
                   <rect x={-tw / 2} y="-22" width={tw} height="30" rx="15" fill="#14213d" />
                   <text x="0" y="-2" textAnchor="middle" fontFamily="Instrument Sans, sans-serif" fontSize="15" fontWeight="600" fill="#ffffff">
                     {l.label}
