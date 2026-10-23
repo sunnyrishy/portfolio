@@ -48,10 +48,10 @@ export function Works() {
       {/* screen with throughput */}
       <rect x="-108" y="-100" width="112" height="58" rx="5" fill="#0b1230" stroke="#4fd1ff" strokeWidth="2" />
       <text x="-52" y="-72" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="18" fill="#4fd1ff">
-        1.4M/s
+        main.cpp
       </text>
       <text x="-52" y="-54" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="11" fill="#7fa0d8">
-        400ns / op
+        std::thread
       </text>
       {/* big gear */}
       <g transform="translate(60 -62)">
@@ -96,7 +96,7 @@ export function Tower() {
       <g transform="translate(-130 -150)">
         <rect width="86" height="28" rx="14" fill="#1f8a5b" />
         <text x="43" y="19" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="13" fill="#eafff3">
-          4 merged
+          merged
         </text>
       </g>
     </g>
