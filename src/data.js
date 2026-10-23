@@ -1,4 +1,4 @@
-// Single source of truth for every piece of copy on the page.
+﻿// Single source of truth for every piece of copy on the page.
 // Sourced from Sunny Rishy Vardhan's resume and from the GitHub API for merged PRs.
 
 export const profile = {
@@ -8,7 +8,7 @@ export const profile = {
   phone: '+1 860 997 9603',
   email: 'sunnyrishyvardhan@gmail.com',
   resume: '/Sunny_Rishy_Vardhan_Resume.pdf',
-  availability: 'Open to Summer 2026 internships and new grad roles',
+  availability: 'Open to new grad software engineering roles',
   headline: ['Nanoseconds are a', 'design', 'decision.'],
   summary:
     'Software engineer with an M.S. in Computer Science and strong C and C++ skills on Linux. I build real time multi threaded systems, and I care about what the profiler says more than what the design doc promises.',
@@ -16,15 +16,13 @@ export const profile = {
 
 export const links = {
   github: 'https://github.com/sunnyrishy',
-  linkedin: 'https://linkedin.com/in/sunny-rishy-vardhan-0b8ab6221',
-  leetcode: 'https://leetcode.com/u/sunnyrishyvardhan',
-  codeforces: 'https://codeforces.com/profile/sunnyrishyvardhan',
+  linkedin: 'https://www.linkedin.com/in/sunny-rishy-vardhan-0b8ab6221/',
 };
 
 export const metrics = [
   { to: 1.4, decimals: 1, suffix: 'M', label: 'events per second, systems engine' },
   { to: 400, decimals: 0, suffix: 'ns', label: 'operation latency at that throughput' },
-  { to: 49.8, decimals: 1, suffix: 'M', label: 'weekly downloads on a package I ship to' },
+  { to: 49.8, decimals: 1, suffix: 'M', label: 'weekly downloads on a package I contributed to' },
   { to: 3.84, decimals: 2, suffix: '', label: 'GPA, M.S. Computer Science' },
 ];
 
@@ -32,6 +30,7 @@ export const projects = [
   {
     span: 'wide',
     title: 'Real Time Multi Threaded Systems Engine',
+    url: 'https://github.com/sunnyrishy/high-frequency-trading-engine',
     stack: ['C', 'C++17', 'Linux', 'perf', 'gdb'],
     body: 'A real time multi threaded engine built from scratch on Linux, processing 1.4M events per second at 400ns operation latency. Lock free queues, atomics and cache line aware memory layouts, designed around how the kernel actually schedules and manages memory rather than around an abstraction.',
     detail:
@@ -41,6 +40,7 @@ export const projects = [
   {
     span: 'half',
     title: 'Linux Network Service and Protocol Stack Handler',
+    url: 'https://github.com/sunnyrishy/cpp-backend-services',
     stack: ['C++17', 'PostgreSQL', 'Docker', 'TCP/IP'],
     body: 'A multi threaded network service on Linux built directly on TCP and IP socket programming. Async IO, connection pooling and thread safe request routing hold response times under 50ms across concurrent clients.',
     detail:
@@ -50,6 +50,7 @@ export const projects = [
   {
     span: 'half',
     title: 'High Performance Indexing and Data Structures Engine',
+    url: 'https://github.com/sunnyrishy/file-search-engine-cpp',
     stack: ['C++', 'STL'],
     body: 'An indexing and retrieval engine built on deliberate data structure design. It processes 136K tokens across 1,005 documents in under a second at 145K tokens per second, answering queries in 2.36ms on average.',
     detail:
@@ -76,7 +77,7 @@ export const contributions = [
   {
     repo: 'ebuild',
     org: 'embeddedos-org',
-    stars: '7',
+    stars: '14',
     number: 45,
     title: "fix(cli): report ninja's diagnostics when a build fails",
     body: "The build tool swallowed ninja's stderr, so a failed build surfaced as a bare exit code with nothing to act on.",
@@ -88,7 +89,7 @@ export const contributions = [
   {
     repo: 'eos',
     org: 'embeddedos-org',
-    stars: '8',
+    stars: '16',
     number: 48,
     title: 'fix(tests): stop test_package overflowing the stack on small stack hosts',
     body: 'Moved a large fixture off the stack so the suite passes on constrained CI runners instead of crashing on them.',
@@ -100,7 +101,7 @@ export const contributions = [
   {
     repo: 'eBoot',
     org: 'embeddedos-org',
-    stars: '6',
+    stars: '14',
     number: 36,
     title: 'fix(runtime): pass a reset type, not a reason, to reset_system',
     body: "Corrected an argument mismatch in the bootloader's reset path.",
@@ -201,3 +202,4 @@ export const nav = [
   { label: 'Stack', href: '#stack' },
   { label: 'Contact', href: '#contact' },
 ];
+

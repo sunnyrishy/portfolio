@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-    /* Clear the sticky nav when jumping to a section. */
-    scroll-padding-top: 96px;
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
   }
 
   body {
@@ -15,107 +15,116 @@
   }
 
   ::selection {
-    background: oklch(0.74 0.15 232 / 0.28);
+    background: rgb(79 209 255 / 0.3);
   }
 
-  /* Respect the viewer's motion preference: entrances resolve instantly,
-     hover transitions survive. */
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
+  :focus-visible {
+    outline: 2px solid #4fd1ff;
+    outline-offset: 3px;
   }
-}
-
-@layer utilities {
-  /* Hero entrance. Deliberately CSS rather than JS: this content is above the
-     fold, so its end state must never depend on an animation runtime having
-     run. `both` fill mode guarantees it resolves visible either way. */
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(26px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  .rise {
-    animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) both;
-  }
-
-  .rise-1 { animation-delay: 0.05s; }
-  .rise-2 { animation-delay: 0.14s; }
-  .rise-3 { animation-delay: 0.23s; }
-  .rise-4 { animation-delay: 0.32s; }
-  .rise-5 { animation-delay: 0.41s; }
 }
 
 @layer components {
-  .shell {
-    @apply mx-auto w-full max-w-[1200px] px-6 md:px-10 lg:px-14;
+  .btn-primary,
+  .btn-ghost {
+    @apply inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full px-5 text-[15px] font-medium transition duration-300 hover:-translate-y-0.5;
   }
-
-  .section {
-    @apply py-24 md:py-32 lg:py-40;
+  .btn-primary {
+    @apply bg-accent text-canvas hover:brightness-110;
   }
-
-  .eyebrow {
-    @apply flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-dim md:text-xs;
+  .btn-ghost {
+    @apply border border-hairline2 text-ink hover:bg-white/[0.06];
   }
-
-  .eyebrow::before {
-    content: '';
-    @apply block h-px w-[22px] bg-accent;
-  }
-
-  .h2 {
-    @apply mt-5 text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl lg:text-[56px] lg:leading-[1.04];
-  }
-
-  .lede {
-    @apply mt-4 max-w-[620px] text-base leading-relaxed text-mid md:mt-5 md:text-lg;
-  }
-
-  .surface {
-    @apply rounded-2xl border border-hairline bg-surface;
-  }
-
-  .pill {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 text-[15px] font-medium
-           transition-transform duration-300 ease-smooth hover:-translate-y-0.5;
-  }
-
-  .pill-primary {
-    @apply pill bg-ink text-canvas hover:bg-white;
-  }
-
-  .pill-ghost {
-    @apply pill border border-hairline2 text-ink hover:bg-white/[0.06];
-  }
-
   .kpi {
-    @apply rounded-lg border px-2.5 py-1.5 font-mono text-[11px] md:text-xs;
-    color: oklch(0.74 0.15 232);
-    background: oklch(0.74 0.15 232 / 0.1);
-    border-color: oklch(0.74 0.15 232 / 0.2);
+    @apply rounded-lg border border-accent/25 bg-accent/10 px-2.5 py-1.5 font-mono text-[11px] text-accent;
   }
-
   .tag {
     @apply rounded-md border border-hairline px-2.5 py-1 font-mono text-[11px] text-dim;
   }
-
   .chip {
-    @apply rounded-[10px] border border-hairline bg-white/[0.02] px-3.5 py-2 text-sm text-mid
-           transition-colors duration-300 hover:border-hairline2 hover:text-ink;
+    @apply rounded-[10px] border border-hairline bg-white/[0.03] px-3 py-1.5 text-sm text-mid transition-colors hover:border-hairline2 hover:text-ink;
+  }
+}
+
+/* ---------- the town ---------- */
+
+.sky {
+  background: linear-gradient(180deg, #060a1c 0%, #101b44 45%, #2c3f7c 72%, #f08a5d 100%);
+}
+
+.moon {
+  position: absolute;
+  top: 14%;
+  right: 16%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffbe8, #f4e6b0 70%);
+  box-shadow: 0 0 60px 18px rgb(255 240 190 / 0.25);
+}
+
+.cloud {
+  position: absolute;
+  height: 26px;
+  border-radius: 999px;
+  background: rgb(160 175 230 / 0.16);
+  filter: blur(2px);
+  animation: drift linear infinite;
+}
+.c1 { top: 20%; width: 150px; animation-duration: 90s; left: -200px; }
+.c2 { top: 32%; width: 100px; animation-duration: 130s; animation-delay: -50s; left: -200px; }
+@keyframes drift { to { transform: translateX(calc(100vw + 400px)); } }
+
+.twinkle { animation: twinkle 3.5s ease-in-out infinite; }
+@keyframes twinkle { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+.lm { cursor: pointer; outline: none; transition: filter 0.3s; }
+.lm.on, .lm:focus-visible { filter: brightness(1.22) drop-shadow(0 0 16px rgb(110 200 255 / 0.55)); }
+.lm .tip { opacity: 0; transform-box: fill-box; transition: opacity 0.2s; pointer-events: none; }
+.lm.on .tip, .lm:focus-visible .tip { opacity: 1; }
+
+.spin { transform-box: fill-box; transform-origin: center; animation: spin 9s linear infinite; }
+.slowspin { animation-duration: 14s; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.smoke { transform-box: fill-box; transform-origin: center; animation: smoke 4.5s ease-out infinite; opacity: 0; }
+.smoke.s2 { animation-delay: 1.5s; }
+.smoke.s3 { animation-delay: 3s; }
+@keyframes smoke { 0% { opacity: 0.5; transform: translate(0, 0) scale(0.5); } 100% { opacity: 0; transform: translate(26px, -90px) scale(2); } }
+
+.ping { transform-box: fill-box; transform-origin: center; animation: ping 2.6s ease-out infinite; }
+.ping.p2 { animation-delay: 1.3s; }
+@keyframes ping { 0% { opacity: 0.9; transform: scale(0.6); } 100% { opacity: 0; transform: scale(5); } }
+
+.flicker { animation: flicker 5s steps(1) infinite; }
+@keyframes flicker { 0%,92% { opacity: 1; } 94% { opacity: 0.4; } 96% { opacity: 1; } 98% { opacity: 0.55; } }
+.blink { animation: blink 1.6s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0.15; } }
+
+.hand { transform-origin: 0 0; animation: spin 60s linear infinite; }
+.hand.fast { animation-duration: 6s; }
+.hand.slow { animation-duration: 72s; }
+
+.rocket { transition: transform 0.6s cubic-bezier(0.3, 0, 0.2, 1); }
+.lm.on .rocket { transform: translateY(-26px); }
+.flame { transform-box: fill-box; transform-origin: top; animation: flame 0.18s ease-in-out infinite alternate; }
+@keyframes flame { to { transform: scaleY(1.5); } }
+
+.car { animation: drive 26s linear infinite; }
+@keyframes drive { from { transform: translate(-200px, 692px); } to { transform: translate(3200px, 692px); } }
+
+.boy .leg { transform-box: fill-box; transform-origin: top center; }
+.boy.walking .l1 { animation: step 0.36s ease-in-out infinite alternate; }
+.boy.walking .l2 { animation: step 0.36s ease-in-out infinite alternate-reverse; }
+@keyframes step { from { transform: rotate(-24deg); } to { transform: rotate(24deg); } }
+
+.bubble { animation: bob 3.2s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-5px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
